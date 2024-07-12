@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <div class="container-letter">
+      <div class="cover"></div>
+      <span class="heart">♥</span>
+      <p class="paper" id="mainMessage">
+       ¡Buenos días, cosita♥️!
+
+Cada mañana, al despertar, pienso en ti y en la luz que aportas a mi vida tienes una hermosa piel morena y unos ojos hermosos. Tu cálida personalidad ilumina mis días, y me hace sentir afortunado de conocerte.
+      </p>
+      <div class="letter"></div>
+    </div>
+    <div class="options">
+      <button id="open">Abrir</button>
+      <button id="close">Cerrar</butto>
+    </div>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
+// read custom message from query strings
+// Tutorial -> https://youtu.be/6ojp1iWUKw8
+
+const urlSearchParams = new URLSearchParams(window.location.search)
+
+const messageCustom = urlSearchParams.get('message')
+
+if (messageCustom) {
+
+  const mainMessageElement = document.querySelector('#mainMessage')
+  mainMessageElement.textContent = decodeURI(messageCustom)
+}
+
+// the tutorial starts here
+
+const btnOpenElement = document.querySelector('#open')
+const btnCloseElement = document.querySelector('#close')
+
+btnCloseElement.disabled = true
+
+
+
+btnOpenElement.addEventListener('click', ()=> {
+  btnOpenElement.disabled = true
+  btnCloseElement.disabled = false
+  const coverElement = document.querySelector('.cover')
+  coverElement.classList.add('open-cover')
+
+  setTimeout(()=>{
+    //
+    coverElement.style.zIndex = -1
+    
+    const paperElement = document.querySelector('.paper')
+    paperElement.classList.remove('close-paper')
+    paperElement.classList.add('open-paper')
+
+    // animacion del corazón
+    const heartElement = document.querySelector('.heart')
+    heartElement.style.display = 'block'
+  
+  }, 500)
+
+})
+btnCloseElement.addEventListener('click', ()=> {
+  btnOpenElement.disabled = false
+  btnCloseElement.disabled = true
+
+  const coverElement = document.querySelector('.cover')
+  const paperElement = document.querySelector('.paper')
+  paperElement.classList.remove('open-paper')
+  paperElement.classList.add('close-paper')
+  
+  setTimeout(()=>{
+    coverElement.style.zIndex = 0
+    coverElement.classList.remove('open-cover')
+
+    // animacion del corazón
+    const heartElement = document.querySelector('.heart')
+    heartElement.style.display = 'none'
+  },500)
+})
